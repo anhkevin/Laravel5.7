@@ -13,10 +13,6 @@
 
 Route::get('/', 'DemoController@index');
 
-Route::get('/serverSide', [
-    'as'   => 'serverSide',
-    'customer' => function () {
-        $users = App\Data::all();
-        return Datatables::of($users)->make();
-    }
-]);
+
+Route::get('/data/customers','DemoController@getCustomers')->name('dataProcessingCustomer');
+

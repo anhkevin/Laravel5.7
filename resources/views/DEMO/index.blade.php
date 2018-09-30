@@ -13,24 +13,21 @@
       <div class="card-header"><i class="icon-drop"></i> Theme colors</div>
       <div class="card-body">
             <div class="row">
-                  <table id="table_id" class="display" style="width:100%;">
+                  <table class="datatable mdl-data-table dataTable" cellspacing="0" width="100%" role="grid" style="width: 100%;">
                         <thead>
                               <tr>
-                                    <th>Column 1</th>
-                                    <th>Column 2</th>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Gender</th>
+                                    <th>Country</th>
+                                    <th>Salary</th>
                               </tr>
                         </thead>
                         <tbody>
-                              <tr>
-                                    <td>Row 1 Data 1</td>
-                                    <td>Row 1 Data 2</td>
-                              </tr>
-                              <tr>
-                                    <td>Row 2 Data 1</td>
-                                    <td>Row 2 Data 2</td>
-                              </tr>
                         </tbody>
-                  </table>
+                  </table> 
             </div>
       </div>          
 @stop
@@ -38,14 +35,23 @@
 @section('javascript')
       <script>
             $(document).ready( function () {
-                  $('#table_id').DataTable({
+                  $('.datatable').DataTable({
                         processing: true,
-                        serverSide: true,
-                        ajax: '{{ route(' serverSide ') }}',
-                        columnDefs: [{
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
-                        }]
+				serverSide: true,
+				ajax: {
+					"url":"<?= route('dataProcessingCustomer') ?>",
+					"dataType":"json",
+					"type":"GET",
+					"data":{"_token":"<?= csrf_token() ?>"}
+				},
+				columns:[
+					{"data":"id"},
+					{"data":"name"},
+					{"data":"phone"},
+                              {"data":"email"},
+                              {"data":"address"},
+					{"data":"action","searchable":false,"orderable":false}
+				]
                   });
             } );
       </script>
